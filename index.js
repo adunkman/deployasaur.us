@@ -14,7 +14,8 @@ app.use(express.json());
 
 app.get("/", c.about.overview, u.render("about"));
 
-app.post("/travis/complete", c.travis.complete, u.render("deploy.sh.ejs"));
+app.post("/travis/notify", c.travis.notify, u.send(200));
+app.get("/travis/deploy", c.travis.deploy, u.render("deploy.sh.ejs"));
 
 server.listen(port, function () {
   console.log("deployasaurus rawring at " + port + " in " + env);
