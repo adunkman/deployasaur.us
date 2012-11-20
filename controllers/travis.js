@@ -15,6 +15,8 @@ travis.deploy = function (req, res, next) {
 
   res.writeHead(200);
 
+  pending[commit] = pending[commit] || [];
+
   pending[commit].push({
     res: res,
     next: next
