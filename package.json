@@ -18,12 +18,12 @@
   "author": "Andrew Dunkman",
   "license": "BSD",
   "dependencies": {
-    "socket.io": "~0.9.11",
-    "express": "~3.0.3",
-    "jade": "~0.27.7",
-    "connect-assets": "~2.3.3",
-    "stylus": "~0.30.1",
-    "ejs": "~0.8.3"
+    "socket.io": "0.9.11",
+    "express": "3.0.3",
+    "jade": "0.27.7",
+    "connect-assets": "2.3.3",
+    "stylus": "0.30.1",
+    "ejs": "0.8.3"
   },
   "engines": {
     "node": "0.8.x",
