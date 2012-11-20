@@ -9,6 +9,7 @@ var express = require("express"),
 
 app.set("view engine", "jade");
 
+app.use(express.logger());
 app.use(require("connect-assets")());
 app.use(express.json());
 
