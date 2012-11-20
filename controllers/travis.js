@@ -7,7 +7,7 @@ travis.notify = function (req, res, next) {
     pending[0].next();
 
     for (var i = pending.length - 1; i >= 1; i--) {
-      pending[i].res.send(200);
+      pending[i].res.send("");
     };
   }
 
