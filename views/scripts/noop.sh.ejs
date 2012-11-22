@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "deployasaurus: <%= reason %>"
+<% if (locals.error) { %>
+echo "deployasaurus: <%= error %>"
+<% } %>
+echo "deployasaurus: no code deployed."

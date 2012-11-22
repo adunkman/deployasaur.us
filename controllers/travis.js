@@ -1,67 +1,72 @@
-var request = require("request"),
-    travis = module.exports = {},
-    pending = {};
+var travis = module.exports = {},
+    s = require("../store");
 
-travis.test = function (req, res, next) {
-  console.log("body:", req.body);
-  next();
-};
+travis.build = function (req, res, next) {
+  var build = req.build;
 
-travis.deploy = function (req, res, next) {
-  var commit = req.body.commit,
-      repo = "adunkman/dunkman.org",
-      app = "adunkman",
-      key = "818193c0a8edd289d284a155b0e112ca",
-      branch = "master";
+  if (build.isPullRequest) {
+    return res.render("scripts/noop.sh.ejs", {
+      reason: "rawr! dinosaurs never deploy pull requests."
+    });
+  }
 
-  res.locals.app = app;
-  res.locals.key = key;
-  res.locals.branch = branch;
-
-  res.writeHead(200);
-
-  pending[commit] = pending[commit] || [];
-
-  pending[commit].push({
-    res: res,
-    next: next
-  });
-
-  getBuildMatrix(repo, commit, function (err, matrix) {
-    if (err) return next(err);
-
-    if (matrix.length === pending[commit].length) {
-      pending[commit][0].next();
-
-      for (var i = pending[commit].length - 1; i >= 1; i--) {
-        pending[commit][i].res.end();
-      };
-
-      delete pending[commit];
+  s.users.findByUsername(build.user, function (err, user) {
+    if (err) {
+      return res.render("scripts/noop.sh.ejs", {
+        reason: "something went wrong.",
+        error: err
+      });
     }
+
+    if (!user) {
+      return res.render("scripts/noop.sh.ejs", {
+        reason: "who's " + build.user + "? i certainly don't know."
+      });
+    }
+
+    var app = user.getApp(build.repository);
+
+    if (!app) {
+      return res.render("scripts/noop.sh.ejs", {
+        reason: "i don't recognize the " + build.repository + " repository."
+      });
+    }
+
+    if (build.branch !== app.branch) {
+      return res.render("scripts/noop.sh.ejs", {
+        reason: "i deploy the " + app.branch + " branch only."
+      });
+    }
+
+    s.builds.recordBuild(build, function (err, similarCount) {
+      if (err) {
+        return res.render("scripts/noop.sh.ejs", {
+          reason: "something went wrong.",
+          error: err
+        });
+      }
+
+      s.github.getExpectedBuildCount(build, function (err, expectedCount) {
+        if (err) {
+          return res.render("scripts/noop.sh.ejs", {
+            reason: "something went wrong.",
+            error: err
+          });
+        }
+
+        if (expectedCount > similarCount) {
+          var remaining = expectedCount - similarCount,
+              plural = remaining === 1 ? "" : "s";
+
+          return res.render("scripts/noop.sh.ejs", {
+            reason: "expecting " + remaining + " more build" + plural + " before deploying."
+          });
+        }
+
+        return res.render("scripts/deploy." + app.host + ".sh.ejs", {
+          build: build, user: user, app: app
+        });
+      });
+    });
   });
 };
-
-var getBuildMatrix = function (repo, commit, callback) {
-  var yml = "https://raw.github.com/" + repo + "/" + commit + "/.travis.yml";
-
-  request.get(yml, function (err, res, body) {
-    if (err) return callback(err);
-    if (res.statusCode !== 200) return callback(res.statusCode);
-
-    // TODO: Parse YAML body and determine all build configurations that
-    // travis will run.
-
-    return callback(["0.8", "0.6"]);
-  });
-};
-
-var keepalive = function () {
-  for (var i = pending.length - 1; i >= 0; i--) {
-    pending[i].res.write(" ");
-  };
-
-  setTimeout(keepalive, 20000);
-};
-
-keepalive();
