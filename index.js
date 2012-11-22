@@ -14,7 +14,7 @@ app.use(require("connect-assets")());
 
 app.get("/", c.about.overview, u.render("about"));
 
-app.post("/build", c.env.parse, m.build.middleware, c.travis.build);
+app.post("/build", u.parseEnv, m.build.middleware, c.travis.build);
 
 server.listen(port, function () {
   console.log("deployasaurus rawring at " + port + " in " + env);
