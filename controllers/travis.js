@@ -1,5 +1,5 @@
 var travis = module.exports = {},
-    s = require("../store");
+    s = require("../stores");
 
 travis.build = function (req, res, next) {
   var build = req.build;
