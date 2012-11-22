@@ -9,14 +9,11 @@ var express = require("express"),
 
 app.set("view engine", "jade");
 
-app.use(express.logger());
 app.use(require("connect-assets")());
-app.use(express.json());
 
 app.get("/", c.about.overview, u.render("about"));
 
-app.post("/travis/notify", c.travis.notify, u.send(200));
-app.get("/travis/deploy/:commit/:status", c.travis.deploy, u.render("deploy.sh.ejs"));
+app.post("/build", c.env.parse, c.travis.test);
 
 server.listen(port, function () {
   console.log("deployasaurus rawring at " + port + " in " + env);

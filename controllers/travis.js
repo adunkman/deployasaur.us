@@ -2,8 +2,13 @@ var request = require("request"),
     travis = module.exports = {},
     pending = {};
 
+travis.test = function (req, res, next) {
+  console.log("body:", req.body);
+  next();
+};
+
 travis.deploy = function (req, res, next) {
-  var commit = req.params.commit,
+  var commit = req.body.commit,
       repo = "adunkman/dunkman.org",
       app = "adunkman",
       key = "818193c0a8edd289d284a155b0e112ca",
