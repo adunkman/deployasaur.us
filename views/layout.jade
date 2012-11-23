@@ -9,4 +9,11 @@ html
     != css("main")
 
   body
+    #header
+      .user
+        if locals.user
+          a(href="/" + locals.user.username) locals.user.username
+        else
+          a(href="/login") Log in with Github
+
     block body

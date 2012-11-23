@@ -1,17 +1,5 @@
 var u = module.exports = {};
 
-u.render = function (viewName) {
-  return function (req, res) {
-    return res.render(viewName);
-  };
-};
-
-u.send = function (statusCode) {
-  return function (req, res) {
-    return res.send(statusCode);
-  };
-};
-
 u.parseEnv = function (req, res, next) {
   var buffer = "";
   req.body = {};
@@ -30,4 +18,16 @@ u.parseEnv = function (req, res, next) {
 
     next();
   });
+};
+
+var taglines = [
+  "run your tests or i’ll eat you.",
+  "deploy early, deploy often or you’ll go extinct preparing releases.",
+  "you’re prehistoric without automated deployments."
+];
+
+u.tagline = function (req, res, next) {
+  var line = taglines[Math.floor(Math.random() * 100) % taglines.length];
+  res.locals.tagline = line;
+  next();
 };

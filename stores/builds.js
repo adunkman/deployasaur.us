@@ -7,3 +7,17 @@ builds.recordBuild = function (build, callback) {
 
   return callback(null, builds[build.commit].length);
 };
+
+builds.count = function (callback) {
+  var count = 0;
+
+  for (var build in store) {
+    count += build.length;
+  }
+
+  return callback(null, count);
+};
+
+builds.historyForUser = function (username, callback) {
+  return callback(null, []);
+};

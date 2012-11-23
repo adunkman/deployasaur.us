@@ -4,4 +4,8 @@ block prepend title
   | about
 
 block body
-  h1 hey dere
+  h1 deployasaurus
+  p.tagline!= locals.tagline
+
+  h2 dinobuilds
+  p= builds
