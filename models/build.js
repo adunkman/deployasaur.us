@@ -6,7 +6,7 @@ var Build = module.exports = function (data) {
   this.repository = pwd.repository;
   this.commit = data.COMMIT;
   this.branch = parseRefs(data.REFS);
-  this.isPullRequest = data.TRAVIS_PULL_REQUEST;
+  this.isPullRequest = data.TRAVIS_PULL_REQUEST === "true";
 };
 
 Build.middleware = function (req, res, next) {
