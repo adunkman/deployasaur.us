@@ -1,0 +1,16 @@
+extends ../layout
+
+block prepend title
+  | #{user.username} &bull;
+
+block body
+  h1 #{user.username}
+
+  h2 Repositories
+
+  if repos && repos.length
+    each repo in repos
+      p
+        a(href="/" + repo.fullName)= repo.fullName
+  else
+    p <strong>No repositories.</strong> To get started using deployasaurus, create a repository on <a href="http://github.com">Github</a> and integrate it with <a href="http://travis-ci.org">Travis CI</a>.

@@ -1,23 +1,18 @@
-var user = module.exports = {};
+var async = require("async"),
+    User = require("../models/user"),
+    user = module.exports = {};
 
-user.profile = function (req, res, next) {
-  if (!req.profile) return next();
-  req.profile.isYou = (req.user && req.user.username === req.profile.username);
+user.view = function (req, res, next) {
+  var user = req.session.user;
 
-  s.builds.historyForUser(req.profile.username, function (err, history) {
+  if (!user) return next();
+
+  req.services.github.getRepos(function (err, repos) {
     if (err) return next(err);
 
-    return res.render("profile", {
-      profile: req.profile,
-      history: history
+    res.render("user/view", {
+      user: user,
+      repos: repos
     });
   });
-};
-
-user.login = function (req, res, next) {
-  // TODO: redirect to github auth endpoint
-};
-
-user.logout = function (req, res, next) {
-  // TODO: destroy session
 };

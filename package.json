@@ -24,7 +24,11 @@
     "connect-assets": "2.3.3",
     "stylus": "0.30.1",
     "ejs": "0.8.3",
-    "request": "2.12.0"
+    "request": "2.12.0",
+    "mongodb": "1.2.1",
+    "connect-flash": "0.1.0",
+    "connect-heroku-redis": "0.1.5",
+    "async": "0.1.22"
   },
   "engines": {
     "node": "0.8.x",

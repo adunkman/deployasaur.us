@@ -19,15 +19,3 @@ u.parseEnv = function (req, res, next) {
     next();
   });
 };
-
-var taglines = [
-  "run your tests or i’ll eat you.",
-  "deploy early, deploy often or you’ll go extinct preparing releases.",
-  "you’re prehistoric without automated deployments."
-];
-
-u.tagline = function (req, res, next) {
-  var line = taglines[Math.floor(Math.random() * 100) % taglines.length];
-  res.locals.tagline = line;
-  next();
-};

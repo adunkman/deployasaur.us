@@ -11,8 +11,8 @@ html
   body
     #header
       .user
-        if locals.user
-          a(href="/" + locals.user.username) locals.user.username
+        if locals.authUser
+          a(href="/")= locals.authUser.username
         else
           a(href="/login") Log in with Github
 

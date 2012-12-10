@@ -9,11 +9,6 @@ var Build = module.exports = function (data) {
   this.isPullRequest = data.TRAVIS_PULL_REQUEST === "true";
 };
 
-Build.middleware = function (req, res, next) {
-  req.build = new Build(req.body);
-  next();
-};
-
 var parsePwd = function (pwd) {
   var parts = pwd.split("/"),
       length = parts.length;
