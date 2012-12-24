@@ -10,15 +10,29 @@ User.prototype.populate = function (data) {
   this.username = data.username;
   this.email = data.email;
   this.avatarUrl = generateGravatarUrl(this.email);
+
+  this.deploys = data.deploys || [];
+};
+
+User.prototype.data = function () {
+  return {
+    username: this.username,
+    email: this.email,
+    deploys: this.deploys
+  };
 };
 
 User.prototype.save = function (callback) {
   var q = { username: this.username };
-  mongo.findAndModify(usersCollection, q, this, function (err, data) {
+  mongo.findAndModify(usersCollection, q, this.data(), function (err, data) {
     if (err) return callback(err);
     this.populate(data);
     return callback();
   }.bind(this));
+};
+
+User.save = function (data, callback) {
+  return new User(data).save(callback);
 };
 
 User.findOne = function (query, callback) {
@@ -35,11 +49,4 @@ var generateGravatarUrl = function (email) {
   var hash = crypto.createHash("md5");
   hash.update(email.trim().toLowerCase());
   return "http://www.gravatar.com/avatar/" + hash.digest("hex") + "?d=https:%2F%2Fa248.e.akamai.net%2Fassets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png";
-};
-
-var save = function (data, callback) {
-  return mongo.save(usersCollection, data, function (err) {
-    if (err) return callback(err);
-    mongo.findOne(usersCollection, data, callback);
-  });
 };

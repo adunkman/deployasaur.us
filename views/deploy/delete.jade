@@ -1,0 +1,11 @@
+extends ../layout
+
+block prepend title
+  | deleting deployment script for #{deploy.repo} —
+
+block body
+  h1 Deleting deployment script for #{deploy.repo}…
+
+  form(method="post", action="/" + deploy.repo + "/delete")
+    p For reals?
+    button(type="submit") Delete #{deploy.repo} deployment script

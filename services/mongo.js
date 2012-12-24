@@ -12,10 +12,19 @@ mongodb.MongoClient.connect(process.env.MONGOHQ_URL, function (err, database) {
   mongo.emit("ready");
 });
 
+mongo.ObjectID = mongodb.ObjectID;
+
 mongo.findOne = function (collectionName, query, callback) {
   db.collection(collectionName, function (err, collection) {
     if (err) return callback(err);
     collection.findOne(query, callback);
+  });
+};
+
+mongo.find = function (collectionName, query, callback) {
+  db.collection(collectionName, function (err, collection) {
+    if (err) return callback(err);
+    collection.find(query).toArray(callback);
   });
 };
 
@@ -43,5 +52,12 @@ mongo.save = function (collectionName, document, callback) {
       if (err) return callback(err);
       return mongo.findOne(collectionName, document, callback);
     });
+  });
+};
+
+mongo.remove = function (collectionName, query, callback) {
+  db.collection(collectionName, function (err, collection) {
+    if (err) return callback(err);
+    collection.remove(query, callback);
   });
 };

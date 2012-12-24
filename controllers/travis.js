@@ -1,6 +1,13 @@
 var travis = module.exports = {};
 
-travis.build = function (req, res, next) {
+travis.script = function (req, res, next) {
+  var fullRepoName = req.params.user + "/" + req.params.repo;
+  var build = req.params.build;
+
+  //res.send(200, "env");
+  //res.send(202, "you are job 2 of 4 to check-in");
+  res.send(501);
+
   // var build = new Build(req.body);
 
   // if (build.isPullRequest) {

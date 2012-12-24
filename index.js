@@ -2,7 +2,7 @@ var express = require("express"),
     HerokuRedisStore = require("connect-heroku-redis")(express),
     app = express(),
     server = require("http").createServer(app),
-    io = require("socket.io").listen(server)
+    io = require("socket.io").listen(server),
     c = require("./controllers"),
     m = require("./models"),
     s = require("./services"),
@@ -15,12 +15,11 @@ app.set("view engine", "jade");
 app.use(require("connect-assets")());
 app.use(express.static(__dirname + "/public"));
 app.use(express.cookieParser("da8493734b04499e80488558cc09da79"));
+app.use(express.bodyParser());
 app.use(express.session({ store: new HerokuRedisStore(), secret: 'da8493734b04499e80488558cc09da79' }));
 
 app.use(s.github);
 app.use(c.auth.middleware);
-
-app.post("/build", u.parseEnv, c.travis.build);
 
 app.get("/", c.user.view, c.about.overview);
 
@@ -28,7 +27,14 @@ app.get("/login", c.auth.login);
 app.get("/login/callback", c.auth.callback);
 app.get("/logout", c.auth.logout);
 
-app.get("/:user/:repo", c.repos.view);
+app.get("/create", c.deploy.createForm);
+app.post("/create", c.deploy.create);
+app.get("/:user/:repo", c.deploy.view);
+app.get("/:user/:repo/edit", c.deploy.editForm);
+app.post("/:user/:repo/edit", c.deploy.edit);
+app.get("/:user/:repo/delete", c.deploy.deleteForm);
+app.post("/:user/:repo/delete", c.deploy.delete);
+app.get("/:user/:repo/:build/script", c.travis.script);
 
 s.mongo.on("ready", function () {
   server.listen(port, function () {

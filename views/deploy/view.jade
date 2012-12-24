@@ -1,0 +1,13 @@
+extends ../layout
+
+block prepend title
+  | #{deploy.repo} deployment script —
+
+block body
+  h1 #{deploy.repo} deployment script
+
+  h2 Script
+  code= deploy.script
+
+  a(href="/" + deploy.repo + "/edit") Edit
+  a(href="/" + deploy.repo + "/delete") Delete

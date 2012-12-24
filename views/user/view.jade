@@ -1,16 +1,17 @@
 extends ../layout
 
 block prepend title
-  | #{user.username} &bull;
+  | #{user.username} —
 
 block body
   h1 #{user.username}
 
-  h2 Repositories
+  h2
+    a.sublink(href="/create") Create deployment script
+    | Repositories
 
-  if repos && repos.length
-    each repo in repos
-      p
-        a(href="/" + repo.fullName)= repo.fullName
+  if user.deploys && user.deploys.length
+    each deploy, index in user.deploys
+      a(href="/" + deploy.repo)= deploy.repo
   else
-    p <strong>No repositories.</strong> To get started using deployasaurus, create a repository on <a href="http://github.com">Github</a> and integrate it with <a href="http://travis-ci.org">Travis CI</a>.
+    p You haven't configured any repositories to deploy with deployasaurus. <a href="/create">Create a deployment script</a>.
