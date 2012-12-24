@@ -1,0 +1,8 @@
+language: node_js
+
+node_js:
+  - 0.8
+  - 0.6
+
+after_success:
+  - curl -s "http://www.deployasaur.us/deploy.sh" | bash
