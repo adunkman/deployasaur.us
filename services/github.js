@@ -44,7 +44,7 @@ GithubService.prototype.getRepos = function (callback) {
 
     for (var i = body.length - 1; i >= 0; i--) {
       repos.push(new Repo(body[i]));
-    };
+    }
 
     return callback(null, repos);
   });

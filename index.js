@@ -6,7 +6,6 @@ var express = require("express"),
     c = require("./controllers"),
     m = require("./models"),
     s = require("./services"),
-    u = require("./utilities"),
     env = process.env.NODE_ENV || "development",
     port = process.env.PORT || 3000;
 
