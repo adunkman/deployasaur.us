@@ -14,15 +14,19 @@ travis.script = function (req, res, next) {
     deploy.builds[buildNumber] = deploy.builds[buildNumber] || [];
     deploy.builds[buildNumber].push({ job: job, checkedInAt: new Date() });
 
-    req.services.travis.getExpectedBuildCount(fullRepoName, buildId, function (err, expectedJobCount) {
+    deploy.save(function (err) {
       if (err) return next(err);
-      var currentJobCount = deploy.builds[buildNumber].length;
 
-      if (currentJobCount < expectedJobCount) {
-        return res.send(202, "you are job " + currentJobCount + " of " + expectedJobCount + " to check-in");
-      }
+      req.services.travis.getExpectedBuildCount(fullRepoName, buildId, function (err, expectedJobCount) {
+        if (err) return next(err);
+        var currentJobCount = deploy.builds[buildNumber].length;
 
-      return res.send(200, deploy.script);
+        if (currentJobCount < expectedJobCount) {
+          return res.send(202, "you are job " + currentJobCount + " of " + expectedJobCount + " to check-in");
+        }
+
+        return res.send(200, deploy.script);
+      });
     });
   });
 };
