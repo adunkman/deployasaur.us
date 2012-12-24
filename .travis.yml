@@ -4,5 +4,9 @@ node_js:
   - 0.8
   - 0.6
 
+env:
+  global:
+    - secure: "DdBPfgPmYzByFqk4q/0/tB0B3Ik9yhw9a173hzwCpVUulOP5d7hgz84YWfQ1\nixFcljMqhYtBlTjoKYS8DEcBOAXDKF7KngoJz+0bE9PhEQ5m9rpVApLOKdv7\nFuK0F4vleP3e+SiEoWUUgpTKcG/Xz8lEXdnSNME8vi2wUzarjY0="
+
 after_success:
   - curl -s "http://www.deployasaur.us/deploy.sh" | bash
