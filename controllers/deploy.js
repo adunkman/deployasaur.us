@@ -90,6 +90,6 @@ deploy.delete = function (req, res, next) {
   Deploy.delete({ repo: fullRepoName }, function (err) {
     return err
       ? next(err)
-      : res.redirect("/");
+      : res.redirect("/" + req.session.user.username);
   });
 };

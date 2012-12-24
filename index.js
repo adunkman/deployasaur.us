@@ -22,7 +22,7 @@ app.use(s.github);
 app.use(s.travis);
 app.use(c.auth.middleware);
 
-app.get("/", c.user.view, c.about.overview);
+app.get("/", c.about.overview);
 
 app.get("/login", c.auth.login);
 app.get("/login/callback", c.auth.callback);
@@ -30,6 +30,8 @@ app.get("/logout", c.auth.logout);
 
 app.get("/create", c.deploy.createForm);
 app.post("/create", c.deploy.create);
+
+app.get("/:user", c.user.view);
 app.get("/:user/:repo", c.deploy.view);
 app.get("/:user/:repo/edit", c.deploy.editForm);
 app.post("/:user/:repo/edit", c.deploy.edit);

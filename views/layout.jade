@@ -10,7 +10,7 @@ html
   body
     #header: .body-container
       if locals.authUser
-        a.user(href="/")= locals.authUser.username
+        a.user(href="/" + locals.authUser.username)= locals.authUser.username
       else
         a.user(href="/login") Log in with GitHub
 
