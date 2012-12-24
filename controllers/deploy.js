@@ -1,7 +1,5 @@
-var async = require("async"),
-    User = require("../models/user"),
-    Deploy = require("../models/deploy"),
-    deploy = module.exports = {};
+var Deploy = require("../models/deploy");
+var deploy = module.exports = {};
 
 deploy.createForm = function (req, res, next) {
   req.services.github.getRepos(function (err, repos) {

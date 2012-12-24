@@ -4,10 +4,10 @@ block prepend title
   | #{deploy.repo} deployment script —
 
 block body
-  h1 #{deploy.repo} deployment script
+  h1 Deployment script
+    p For #{deploy.repo}
 
-  h2 Script
+  a.delete-button(href="/" + deploy.repo + "/delete") Delete
+  a.edit-button(href="/" + deploy.repo + "/edit") Edit
+
   code= deploy.script
-
-  a(href="/" + deploy.repo + "/edit") Edit
-  a(href="/" + deploy.repo + "/delete") Delete

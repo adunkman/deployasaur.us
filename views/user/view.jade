@@ -4,14 +4,16 @@ block prepend title
   | #{user.username} —
 
 block body
-  h1 #{user.username}
+  h1
+    a.sublink(href="/logout") Log out
+    | Howdy #{user.username}!
 
   h2
     a.sublink(href="/create") Create deployment script
-    | Repositories
+    | Active deployment scripts
 
   if deploys && deploys.length
-    each deploy, index in deploys
-      a(href="/" + deploy.repo)= deploy.repo
+    ul: each deploy, index in deploys
+      li: a(href="/" + deploy.repo)= deploy.repo
   else
     p You haven't configured any repositories to deploy with deployasaurus. <a href="/create">Create a deployment script</a>.

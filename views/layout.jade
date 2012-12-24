@@ -3,17 +3,23 @@ html
   head
     title
       block title
-        | deployasaurus
+        | deployasaur.us
+
+    link(href='http://fonts.googleapis.com/css?family=Droid+Sans:700|Droid+Sans+Mono|Droid+Serif:400,700,400italic', rel='stylesheet', type='text/css')
+    != css("main")
+  body
+    #header: .body-container
+      if locals.authUser
+        a.user(href="/")= locals.authUser.username
+      else
+        a.user(href="/login") Log in with GitHub
+
+      h1 deployasaur.us
+
+    .body-container
+      block body
+
+    #footer: .body-container
+      p A project of <a href="http://twitter.com/adunkman">@adunkman</a> <span class="separator">&bull;</span> <a href="http://github.com/adunkman/deployasaur.us">fork the source</a> on GitHub.
 
     != js("main")
-    != css("main")
-
-  body
-    #header
-      .user
-        if locals.authUser
-          a(href="/")= locals.authUser.username
-        else
-          a(href="/login") Log in with Github
-
-    block body

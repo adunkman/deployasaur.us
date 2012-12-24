@@ -54,7 +54,6 @@ auth.callback = function (req, res, next) {
 
 auth.logout = function (req, res, next) {
   req.session.destroy();
-  //req.flash("info", "You are now logged out.");
   return res.redirect("/");
 };
 

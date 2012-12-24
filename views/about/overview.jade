@@ -1,1 +1,34 @@
 extends ../layout
+
+block body
+  h1 deployasaur.us
+    p Automatic Deployments with Travis CI
+
+  -// http://www.youtube.com/watch?v=Cq-NShfefks  B.o.B - Magic ft. Rivers Cuomo [Official Music Video]
+  -// http://www.youtube.com/watch?v=IYqRfQ5G4as  Joshua Radin Brand New Day
+  -// http://www.youtube.com/watch?v=8OD50AUpDlI  JRDN - Like Magic
+
+  - var magicUrls = ["http://www.youtube.com/watch?v=Cq-NShfefks", "http://www.youtube.com/watch?v=IYqRfQ5G4as", "http://www.youtube.com/watch?v=8OD50AUpDlI"];
+  - var magicUrl = magicUrls[Math.floor(Math.random() * 100) % magicUrls.length];
+
+  h2 How does it work?
+  ol
+    li
+      h3 Add an <kbd>after_success</kbd> script to your <kbd>.travis.yml</kbd> file.
+      | <code>after_success:
+      |  - curl -s "http://www.deployasaur.us/deploy.sh" | bash</code>
+
+    li
+      h3 <a href="/login">Log in</a> with your GitHub credentials and create a new deployment script for your repository.
+      p Deployment scripts are executed <kbd>./your-script</kbd> style on one of your Travis workers. You can use any language that Travis will understand (be sure to include a <a href="http://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a>), and Travis gives your script root access through <kbd>sudo</kbd>.
+
+    li
+      h3 Push to your repository!
+      p Assuming that you have <a href="http://about.travis-ci.org/docs/user/getting-started/">Travis CI already configured</a>, pushing to your repository on GitHub will trigger a new build on Travis, and Travis will trigger deployasaurus to run your deployment script if your tests pass. <a href="#{magicUrl}">Like magic</a>!
+
+  h2 Why not just write deployment into <kbd>.travis.yml</kbd>?
+  p <em>The <kbd>after_success</kbd> script is run on every travis worker</em> after your tests complete successfully. If you have more than one build configuration (and your build matrix expands into more than one test run), your <kbd>after_success</kbd> script will be run more than once. I don't know about you, but I don't like deploying the same code more than once!
+  p <em>Deployasaur.us understands your build matrix</em> and will run your deployment script only once. Check your logs after deploying; some of your travis workers will no-op due to incomplete runs.
+
+  h2 What can I use automatic deployments for?
+  p Everything! Deploy a web application to Heroku. Or maybe generate documentation from your source code and deploy it automatically to your repository’s GitHub pages.

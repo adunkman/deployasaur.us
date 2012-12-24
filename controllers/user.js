@@ -1,4 +1,3 @@
-var async = require("async");
 var Deploy = require("../models/deploy");
 var user = module.exports = {};
 

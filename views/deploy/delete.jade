@@ -4,8 +4,9 @@ block prepend title
   | deleting deployment script for #{deploy.repo} —
 
 block body
-  h1 Deleting deployment script for #{deploy.repo}…
+  h1 Deleting deployment script…
+    p For #{deploy.repo}
 
   form(method="post", action="/" + deploy.repo + "/delete")
-    p For reals?
+    p There isn’t a way to recover deleted scripts.
     button(type="submit") Delete #{deploy.repo} deployment script

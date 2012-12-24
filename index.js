@@ -16,6 +16,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.cookieParser("da8493734b04499e80488558cc09da79"));
 app.use(express.bodyParser());
 app.use(express.session({ store: new HerokuRedisStore(), secret: 'da8493734b04499e80488558cc09da79' }));
+app.use(require("connect-flash")());
 
 app.use(s.github);
 app.use(s.travis);

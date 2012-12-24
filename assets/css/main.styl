@@ -1,0 +1,45 @@
+@import "lib/mixins"
+@import "lib/fonts"
+
+html
+  background: #e8e8e8 url("/images/creampaper.png");
+  color: #333;
+
+body
+  margin: 0;
+  serif()
+
+code, kbd
+  monospace()
+  font-size: 0.9em;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+
+kbd
+  padding: 1px;
+
+code
+  display: block;
+  white-space: pre;
+  overflow: auto;
+  margin: 10px 0;
+  padding: 5px;
+
+h1, h2, h3, h4, h5, h6
+  sans-serif()
+
+h1
+  font-size: 2.5em;
+
+h2
+  font-size: 1.6em;
+
+.body-container
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 0 10px;
+
+@import "header"
+@import "page"
+@import "footer"
