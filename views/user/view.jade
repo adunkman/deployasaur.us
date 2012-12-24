@@ -10,8 +10,8 @@ block body
     a.sublink(href="/create") Create deployment script
     | Repositories
 
-  if user.deploys && user.deploys.length
-    each deploy, index in user.deploys
+  if deploys && deploys.length
+    each deploy, index in deploys
       a(href="/" + deploy.repo)= deploy.repo
   else
     p You haven't configured any repositories to deploy with deployasaurus. <a href="/create">Create a deployment script</a>.

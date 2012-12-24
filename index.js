@@ -18,6 +18,7 @@ app.use(express.bodyParser());
 app.use(express.session({ store: new HerokuRedisStore(), secret: 'da8493734b04499e80488558cc09da79' }));
 
 app.use(s.github);
+app.use(s.travis);
 app.use(c.auth.middleware);
 
 app.get("/", c.user.view, c.about.overview);

@@ -10,15 +10,12 @@ User.prototype.populate = function (data) {
   this.username = data.username;
   this.email = data.email;
   this.avatarUrl = generateGravatarUrl(this.email);
-
-  this.deploys = data.deploys || [];
 };
 
 User.prototype.data = function () {
   return {
     username: this.username,
-    email: this.email,
-    deploys: this.deploys
+    email: this.email
   };
 };
 

@@ -12,11 +12,14 @@ function print() {
 [[ $(git remote -v) =~ git://github.com/([^ ]+).git ]]
 repository=${BASH_REMATCH[1]}
 build=$TRAVIS_BUILD_NUMBER
+job=$TRAVIS_JOB_NUMBER
+id=$TRAVIS_BUILD_ID
 
 print "howdy $repository build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
-url="http://www.deployasaur.us/$repository/$build/script"
+url="http://www.deployasaur.us/$repository/$build/script?job=${job}&id=${id}"
+print $url
 status=$(curl -s $url -o response -w %{http_code})
 
 case $status in
@@ -41,7 +44,7 @@ case $status in
     print "$(cat response)"
     print "${yellow}exiting without deploying.${reset}"
     ;;
-  501)
+  404)
     print "${red}i don't know about this repository.${reset}"
     print "${red}are you sure you've created a deployment script for $repository?${reset}"
     print "${yellow}exiting without deploying.${reset}"

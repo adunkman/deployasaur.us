@@ -1,5 +1,6 @@
 var async = require("async"),
     User = require("../models/user"),
+    Deploy = require("../models/deploy"),
     deploy = module.exports = {};
 
 deploy.createForm = function (req, res, next) {
@@ -14,18 +15,17 @@ deploy.createForm = function (req, res, next) {
 };
 
 deploy.create = function (req, res, next) {
-  var user = req.session.user;
   var script = req.body.script;
   var repo = req.body.repo;
 
   // TODO: Validate this form.
 
-  user.deploys.push({
+  var d = new Deploy({
     script: script,
     repo: repo
   });
 
-  User.save(user, function (err) {
+  d.save(function (err) {
     return err
       ? next(err)
       : res.redirect("/" + repo);
@@ -33,104 +33,63 @@ deploy.create = function (req, res, next) {
 };
 
 deploy.view = function (req, res, next) {
-  var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
-  var repo = (function () {
-    for (var i = user.deploys.length - 1; i >= 0; i--) {
-      var obj = user.deploys[i];
 
-      if (obj.repo === fullRepoName) {
-        return obj;
-      }
-    }
-  })();
+  Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    if (err || !d) return next(err);
 
-  if (!repo) return next();
-
-  res.render("deploy/view", {
-    deploy: repo
+    res.render("deploy/view", {
+      deploy: d
+    });
   });
 };
 
 deploy.editForm = function (req, res, next) {
-  var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
-  var repo = (function () {
-    for (var i = user.deploys.length - 1; i >= 0; i--) {
-      var obj = user.deploys[i];
 
-      if (obj.repo === fullRepoName) {
-        return obj;
-      }
-    }
-  })();
+  Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    if (err || !d) return next(err);
 
-  if (!repo) return next();
-
-  res.render("deploy/edit", {
-    deploy: repo
+    res.render("deploy/edit", {
+      deploy: d
+    });
   });
 };
 
 deploy.edit = function (req, res, next) {
-  var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
-  var repo = (function () {
-    for (var i = user.deploys.length - 1; i >= 0; i--) {
-      var obj = user.deploys[i];
-
-      if (obj.repo === fullRepoName) {
-        return obj;
-      }
-    }
-  })();
-
-  if (!repo) return next();
 
   // TODO: Validate this form.
 
-  repo.script = req.body.script;
+  Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    if (err || !d) return next(err);
 
-  User.save(user, function (err) {
-    return err
-      ? next(err)
-      : res.redirect("/" + repo.repo);
+    d.script = req.body.script;
+
+    d.save(function (err) {
+      return err
+        ? next(err)
+        : res.redirect("/" + d.repo);
+    });
   });
 };
 
 deploy.deleteForm = function (req, res, next) {
-  var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
-  var repo = (function () {
-    for (var i = user.deploys.length - 1; i >= 0; i--) {
-      var obj = user.deploys[i];
 
-      if (obj.repo === fullRepoName) {
-        return obj;
-      }
-    }
-  })();
+  Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    if (err || !d) return next(err);
 
-  if (!repo) return next();
-
-  res.render("deploy/delete", {
-    deploy: repo
+    res.render("deploy/delete", {
+      deploy: d
+    });
   });
 };
 
 deploy.delete = function (req, res, next) {
-  var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
 
-  for (var i = user.deploys.length - 1; i >= 0; i--) {
-    var obj = user.deploys[i];
-
-    if (obj.repo === fullRepoName) {
-      user.deploys.splice(i, 1);
-    }
-  }
-
-  User.save(user, function (err) {
+  Deploy.delete({ repo: fullRepoName }, function (err) {
     return err
       ? next(err)
       : res.redirect("/");
