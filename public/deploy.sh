@@ -16,9 +16,7 @@ build=$TRAVIS_BUILD_NUMBER
 print "howdy $repository build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
-#url="http://www.deployasaur.us/$repository/$build/script"
-url="http://localhost:3000/$repository/$build/script"
-
+url="http://www.deployasaur.us/$repository/$build/script"
 status=$(curl -s $url -o response -w %{http_code})
 
 case $status in
