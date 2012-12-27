@@ -10,7 +10,12 @@ html
   body
     #header: .body-container
       if locals.authUser
-        a.user(href="/" + locals.authUser.username)= locals.authUser.username
+        a.user(href="/" + locals.authUser.username)
+          span= locals.authUser.username
+          .img
+            img(src=locals.authUser.avatarUrl)
+            .decoration
+
       else
         a.user(href="/login") Log in with GitHub
 
