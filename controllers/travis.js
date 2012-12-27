@@ -25,7 +25,7 @@ travis.script = function (req, res, next) {
           return res.send(202, "you are job " + currentJobCount + " of " + expectedJobCount + " to check-in");
         }
 
-        return res.send(200, deploy.script);
+        return res.send(200, deploy.script.replace("/\r\n/g", "\n"));
       });
     });
   });
