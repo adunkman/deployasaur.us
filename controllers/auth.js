@@ -46,7 +46,7 @@ auth.callback = function (req, res, next) {
       user.save(function (err) {
         if (err) return next(err);
         req.session.user = user;
-        return res.redirect("/");
+        return res.redirect("/" + user.username);
       });
     });
   });
