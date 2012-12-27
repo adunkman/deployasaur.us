@@ -12,7 +12,7 @@ Automatic Deployments with Travis CI
 
 2. Log in with your GitHub credentials to [deployasaur.us](http://www.deployasaur.us) and create a new deployment script for your repository.
 
-    Deployment scripts are executed `./your-script` style on one of your Travis workers. You can use any language that Travis will understand (be sure to include a [shebang](http://en.wikipedia.org/wiki/Shebang_(Unix))), and Travis gives your script root access through sudo.
+    Deployment scripts are executed `./your-script` style on one of your Travis workers. You can use any language that Travis will understand (be sure to include a [shebang](http://en.wikipedia.org/wiki/Shebang_%28Unix%29)), and Travis gives your script root access through sudo.
 
 3. Push to your repository!
 
