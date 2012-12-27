@@ -87,7 +87,7 @@ deploy.deleteForm = function (req, res, next) {
 deploy.delete = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
 
-  Deploy.delete({ repo: fullRepoName }, function (err) {
+  Deploy.delete(fullRepoName, function (err) {
     return err
       ? next(err)
       : res.redirect("/" + req.session.user.username);
