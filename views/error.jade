@@ -1,0 +1,10 @@
+extends layout
+
+block prepend title
+  | #{statusCode} —
+
+block body
+  h1 HTTP #{statusCode}
+    p= statusDescription
+
+  p Sorry about that. Care to <a href="https://github.com/adunkman/deployasaur.us/issues">report an issue</a> describing what you were doing?

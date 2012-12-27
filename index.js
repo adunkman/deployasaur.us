@@ -39,6 +39,10 @@ app.get("/:user/:repo/delete", c.deploy.deleteForm);
 app.post("/:user/:repo/delete", c.deploy.delete);
 app.get("/:user/:repo/:build/script", c.travis.script);
 
+app.use(app.router);
+app.use(c.error.handleErrors);
+app.use(c.error.catchAll);
+
 s.mongo.on("ready", function () {
   server.listen(port, function () {
     console.log("deployasaurus rawring at " + port + " in " + env);

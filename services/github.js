@@ -11,6 +11,14 @@ var GithubService = function (req) {
   this.session = req.session;
 };
 
+GithubService.prototype.doesUserHavePushAccess = function (user, repo, callback) {
+  this.getRepo(user, repo, function (err, repo) {
+    if (err) return callback(err);
+    if (!repo) return callback(null, false);
+    return callback(null, repo.canPush);
+  });
+};
+
 GithubService.prototype.getUser = function (callback) {
   var url = "https://api.github.com/user",
       qs = { access_token: this.session.oauth && this.session.oauth.accessToken };
