@@ -4,7 +4,12 @@ var error = module.exports = {};
 error.handleErrors = function (err, req, res, next) {
   var statusCode = 500;
 
-  if (!isNaN(err)) statusCode = err;
+  if (!isNaN(err)) {
+    statusCode = err;
+  }
+  else {
+    console.error(err);
+  }
 
   // TODO: redirect to login if unauthorized
 //  if (statusCode === 401 && !req.session.user) {

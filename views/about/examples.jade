@@ -1,0 +1,27 @@
+extends ../layout
+
+block prepend title
+  | examples —
+
+block body
+  h2 Deployment Script Examples
+
+  ul
+    li: a(href="#heroku") Deploying Applications to Heroku
+
+  h2#heroku Deploying Applications to Heroku
+  p You’ll need your Heroku API key to authenticate. To get your API key, run <kbd>heroku auth:token</kbd> on your developer machine.
+
+  p Next, you’ll need to give that key to Travis (but, without sharing it!). Travis has a way of <a href="http://about.travis-ci.org/docs/user/build-configuration/#Secure-environment-variables">encrypting environmental variables</a>:
+
+  code= "gem install travis\ntravis encrypt your-github-user/your-repo HEROKU_API_KEY=super_secret_key"
+
+  p The response given from this command should be added to your <kbd>.travis.yml</kbd>:
+
+  code= "env:\n  global:\n    - secure: \"DdBPfgPmYzByFqk4q/0/tB0B3Ik9yhw9a173hzwCpVUulOP5d7hgz84YWfQ1\nixFcljMqhYtBlTjoKYS8DEcBOAXDKF7KngoJz+0bE9PhEQ5m9rpVApLOKdv7\nFuK0F4vleP3e+SiEoWUUgpTKcG/Xz8lEXdnSNME8vi2wUzarjY0=\""
+
+  p Finally, the script for deployasaur.us:
+
+  code= "wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh\ngit remote add heroku git@heroku.com:[YOUR_APP_NAME].git\necho \"Host heroku.com\" >> ~/.ssh/config\necho \"   StrictHostKeyChecking no\" >> ~/.ssh/config\necho \"   CheckHostIP no\" >> ~/.ssh/config\necho \"   UserKnownHostsFile=/dev/null\" >> ~/.ssh/config\nyes | heroku keys:add\nyes | git push heroku master\nheroku keys:remove $USER"
+
+  p Deployasaur.us uses this mechanism to deploy itself; see the functioning <a href="https://github.com/adunkman/deployasaur.us/blob/master/.travis.yml"><kbd>.travis.yml</kbd></a>.

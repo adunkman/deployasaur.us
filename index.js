@@ -30,6 +30,7 @@ app.get("/logout", c.auth.logout);
 
 app.get("/create", c.deploy.createForm);
 app.post("/create", c.deploy.create);
+app.get("/create/examples", c.about.examples);
 
 app.get("/:user", c.user.view);
 app.get("/:user/:repo", c.deploy.view);
