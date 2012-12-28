@@ -1,4 +1,5 @@
 node_modules/
+builtAssets/
 env.sh
 *.iws
 workspace.xml
