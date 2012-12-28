@@ -9,17 +9,21 @@ html
     != css("main")
   body
     #header: .body-container
-      if locals.authUser
-        a.user(href="/" + locals.authUser.username)
-          span= locals.authUser.username
-          .img
-            img(src=locals.authUser.avatarUrl)
-            .decoration
+      .user
+        if locals.authUser
+          a.profile-link(href="/" + locals.authUser.username)
+            span Howdy #{locals.authUser.username}!
+            .img
+              img(src=locals.authUser.avatarUrl)
+              .decoration
+          .menu: .menu-container
+            a(href="/" + locals.authUser.username) Your profile
+            a(href="/logout") Log out
 
-      else
-        a.user(href="/login"): span Log in with GitHub
+        else
+          a.profile-link(href="/login"): span Log in with GitHub
 
-      h1: a(href="/") deployasaur.us
+      h1: a(href="/", title="Go to the home page") deployasaur.us
 
     .body-container
       block body

@@ -1,40 +1,40 @@
+header-link()
+  color: #FEF7F9;
+  text-shadow: 0 1px 0 #9E1230;
+  text-decoration: none;
+
+  &:hover
+    color: #FFF;
+    text-shadow: 0 1px 0 #000;
+
 #header
-  background-gradient: #E52E56 #DF0030;
-  border-top: 1px solid #EE7F96;
-  border-bottom: 1px solid #9E1230;
-  padding: 10px 0;
-  margin-bottom: 2em;
-
-  text()
-    color: #FEF7F9;
-    text-shadow: 0 1px 0 #9E1230;
-    text-decoration: none;
-
-    &:hover
-      color: #fff;
-      text-shadow: 0 1px 0 #000;
+  accent-background()
+  accent-ns-border()
+  margin-bottom: 30px;
 
   h1
     margin: 0;
     font-size: 20px;
+    line-height: 1;
+    padding: 10px 0;
 
     a
-      text()
+      header-link()
 
   .user
-    text()
-    sans-serif()
-    display: block;
     float: right;
-    font-size: 0.9em;
+    position: relative;
+
+    a.profile-link
+      header-link()
 
     .img
-      margin-top: -3px;
       width: 32px;
       height: 32px;
       position: relative;
-      display: inline-block;
-      vertical-align: middle;
+      float: left;
+      display: block;
+      padding: 4px 0 4px 10px;
 
       img
         position: absolute;
@@ -47,8 +47,8 @@
 
       .decoration
         position: absolute;
-        top: 1px;
-        left: 1px;
+        top: 5px;
+        left: 11px;
         width: 28px;
         height: 28px;
         border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -57,5 +57,43 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
     span
-      padding-right: 10px;
-      line-height: 32px;
+      sans-serif()
+      line-height: 1;
+      font-size: 14px;
+      padding: 13px 0;
+      display: block;
+      float: left;
+
+    .menu
+      display: none;
+      position: absolute;
+      padding: 0 20px 10px 20px;
+      list-style-type: none;
+      width: 100%;
+      top: 40px;
+      left: -20px;
+
+      .menu-container
+        margin: 0 -10px;
+        padding: 10px;
+        background-color: #555;
+        border-bottom-radius: 5px;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+      a
+        sans-serif()
+        display: block;
+        margin: 0 -10px;
+        padding: 3px 10px;
+        font-size: 14px;
+        color: #E9E9E9;
+        text-decoration: none;
+
+        &:hover
+          color: #FFF;
+          background-color: #666;
+
+
+    &:hover
+      .menu
+        display: block;
