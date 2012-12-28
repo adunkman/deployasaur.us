@@ -18,7 +18,7 @@ deploy.create = function (req, res, next) {
   var user = req.session.user;
   var script = req.body.script;
   var repo = req.body.repo;
-  var repoParts = req.params.repo.split("/");
+  var repoParts = repo.split("/");
 
   if (!user) return next(401);
 
