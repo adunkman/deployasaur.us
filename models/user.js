@@ -9,13 +9,15 @@ var User = module.exports = function (data) {
 User.prototype.populate = function (data) {
   this.username = data.username;
   this.email = data.email;
-  this.avatarUrl = generateGravatarUrl(this.email);
+  this.gravatarId = data.gravatarId;
+  this.avatarUrl = generateGravatarUrl(data.gravatarId);
 };
 
 User.prototype.data = function () {
   return {
     username: this.username,
-    email: this.email
+    email: this.email,
+    gravatarId: this.gravatarId
   };
 };
 
@@ -40,10 +42,7 @@ User.findOne = function (query, callback) {
   });
 };
 
-var generateGravatarUrl = function (email) {
-  if (!email) return null;
-
-  var hash = crypto.createHash("md5");
-  hash.update(email.trim().toLowerCase());
-  return "http://www.gravatar.com/avatar/" + hash.digest("hex") + "?d=https:%2F%2Fa248.e.akamai.net%2Fassets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png";
+var generateGravatarUrl = function (gravatarId) {
+  if (!gravatarId) return null;
+  return "http://www.gravatar.com/avatar/" + gravatarId + "?d=https:%2F%2Fa248.e.akamai.net%2Fassets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png";
 };
