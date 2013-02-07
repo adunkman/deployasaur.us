@@ -15,6 +15,12 @@ build=$TRAVIS_BUILD_NUMBER
 job=$TRAVIS_JOB_NUMBER
 id=$TRAVIS_BUILD_ID
 
+if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
+  print "woah there! dinosaurs never deploy pull requests."
+  print "${yellow}exiting without deploying.${reset}"
+  exit
+fi
+
 print "howdy $repository build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
