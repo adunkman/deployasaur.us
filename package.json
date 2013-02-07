@@ -25,7 +25,8 @@
     "request": "2.12.0",
     "mongodb": "1.2.1",
     "connect-flash": "0.1.0",
-    "connect-heroku-redis": "0.1.5"
+    "connect-heroku-redis": "0.1.5",
+    "async": "0.2.3"
   },
   "devDependencies": {
     "mocha": "1.7.4"
