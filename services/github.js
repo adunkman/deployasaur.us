@@ -33,7 +33,8 @@ GithubService.prototype.getUser = function (callback) {
 
     return callback(null, new User({
       username: body.login,
-      email: body.email
+      email: body.email,
+      gravatarId: body.gravatar_id
     }));
   });
 };
