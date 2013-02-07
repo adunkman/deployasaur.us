@@ -1,5 +1,4 @@
-var crypto = require("crypto"),
-    mongo = require("../services/mongo"),
+var mongo = require("../services/mongo"),
     usersCollection = "users";
 
 var User = module.exports = function (data) {
