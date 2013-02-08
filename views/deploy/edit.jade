@@ -7,7 +7,7 @@ block body
   h1 Edit deployment script
     p For #{deploy.repo}
 
-  form(method="post", action="/" + deploy.repo + "/edit")
+  form(id="deploy_form", method="post", action="/" + deploy.repo + "/edit")
     p When all tests successfully finish for repository <em>#{deploy.repo}</em>, <label for="script">run this script:</label>
 
     .textarea-container
