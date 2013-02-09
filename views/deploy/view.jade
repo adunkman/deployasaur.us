@@ -5,9 +5,9 @@ block prepend title
 
 block body
   h1 Deployment script
-    p For #{deploy.repo}
+    p For #{deploy.repo} #{deploy.branch}
 
-  a.delete-button(href="/" + deploy.repo + "/delete") Delete
-  a.edit-button(href="/" + deploy.repo + "/edit") Edit
+  a.delete-button(href="/" + deploy.repo + "/" + deploy.branch + "/delete") Delete
+  a.edit-button(href="/" + deploy.repo + "/" + deploy.branch + "/edit") Edit
 
   code= deploy.script

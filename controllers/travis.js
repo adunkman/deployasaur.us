@@ -3,11 +3,19 @@ var travis = module.exports = {};
 
 travis.script = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
   var buildNumber = req.params.build;
   var buildId = req.query.id;
   var job = req.query.job;
 
-  Deploy.findOne({ repo: fullRepoName }, function (err, deploy) {
+  var query = { repo: fullRepoName };
+
+  if (branchName == 'master')
+    query["$where"] = "this.branch == null || this.branch == 'master'";
+  else
+    query.branch = branchName;
+
+  Deploy.findOne(query, function (err, deploy) {
     if (err) return next(err);
     if (!deploy) return res.send(404);
 
@@ -30,11 +38,3 @@ travis.script = function (req, res, next) {
     });
   });
 };
-
-
-  // if (build.isPullRequest) {
-  //   return res.render("scripts/noop.sh.ejs", {
-  //     reason: "rawr! dinosaurs never deploy pull requests."
-  //   });
-  // }
-

@@ -7,6 +7,7 @@ var Deploy = module.exports = function (data) {
 
 Deploy.prototype.populate = function (data) {
   this.repo = data.repo;
+  this.branch = data.branch || 'master';
   this.script = data.script;
   this.builds = data.builds || {};
 };
@@ -14,6 +15,7 @@ Deploy.prototype.populate = function (data) {
 Deploy.prototype.data = function () {
   return {
     repo: this.repo,
+    branch: this.branch,
     script: this.script,
     builds: this.builds
   };
@@ -21,6 +23,12 @@ Deploy.prototype.data = function () {
 
 Deploy.prototype.save = function (callback) {
   var q = { repo: this.repo };
+
+  if (this.branch == 'master')
+    q["$where"] = "this.branch == null || this.branch == 'master'";
+  else
+    q.branch = this.branch;
+
   mongo.findAndModify(deploysCollection, q, this.data(), function (err, data) {
     if (err) return callback(err);
     this.populate(data);
@@ -32,8 +40,8 @@ Deploy.prototype.delete = function (callback) {
   Deploy.delete(this.repo, callback);
 };
 
-Deploy.delete = function (repo, callback) {
-  mongo.remove(deploysCollection, { repo: repo }, callback);
+Deploy.delete = function (query, callback) {
+  mongo.remove(deploysCollection, query, callback);
 };
 
 Deploy.save = function (data, callback) {

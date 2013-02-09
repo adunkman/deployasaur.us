@@ -34,12 +34,12 @@ app.post("/create", c.deploy.create);
 app.get("/create/examples", c.about.examples);
 
 app.get("/:user", c.user.view);
-app.get("/:user/:repo", c.deploy.view);
-app.get("/:user/:repo/edit", c.deploy.editForm);
-app.post("/:user/:repo/edit", c.deploy.edit);
-app.get("/:user/:repo/delete", c.deploy.deleteForm);
-app.post("/:user/:repo/delete", c.deploy.delete);
-app.get("/:user/:repo/:build/script", c.travis.script);
+app.get("/:user/:repo/:branch", c.deploy.view);
+app.get("/:user/:repo/:branch/edit", c.deploy.editForm);
+app.post("/:user/:repo/:branch/edit", c.deploy.edit);
+app.get("/:user/:repo/:branch/delete", c.deploy.deleteForm);
+app.post("/:user/:repo/:branch/delete", c.deploy.delete);
+app.get("/:user/:repo/:branch/:build/script", c.travis.script);
 
 app.use(app.router);
 app.use(c.error.handleErrors);

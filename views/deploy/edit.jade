@@ -5,10 +5,10 @@ block prepend title
 
 block body
   h1 Edit deployment script
-    p For #{deploy.repo}
+    p For #{deploy.repo} #{deploy.branch}
 
-  form(id="deploy_form", method="post", action="/" + deploy.repo + "/edit")
-    p When all tests successfully finish for repository <em>#{deploy.repo}</em>, <label for="script">run this script:</label>
+  form(id="deploy_form", method="post", action="/" + deploy.repo + "/" + deploy.branch + "/edit")
+    p When all tests successfully finish for repository <em>#{deploy.repo}</em>, branch <em>#{deploy.branch}</em>, <label for="script">run this script:</label>
 
     .textarea-container
       textarea(name="script", id="script")= deploy.script
