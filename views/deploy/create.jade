@@ -7,18 +7,25 @@ block body
   h1 Create deployment script
     p Looking for a few <a href="/create/examples" target="_blank">examples</a>?
 
+  ul.error
+    each message in error
+      li= message
+
   form(id="deploy_form", method="post", action="/create")
-    | <label for="repo">When all tests successfully finish for repository </label>
-    | <select name="repo" id="repo">
+    label(for='repo') When all tests successfully finish for repository
+      select(name='repo', id='repo', class=error.repo && 'error')
+        each repo in repos
+          if(repo.name == data.repo) 
+            option(selected)= repo.name
+          else
+            option= repo.name
+      | , 
 
-    each repo in repos
-      option= repo.name
+    label(for="branch") branch
+      input(type="text", id="branch", name="branch", class=error.branch && 'error', value=data.branch)
+      | ,
 
-    | </select>, 
-    | <label for="branch">branch</label>
-    | <input type="text" id="branch" name="branch"></input>,
-    | <label for="script">run this script:</label>
-
-    textarea(name="script", id="script")
-
+    label(for="script") run this script:
+      textarea(name="script", id="script", class=error.script && 'error')= data.script
+    
     button(type="submit") Save script
