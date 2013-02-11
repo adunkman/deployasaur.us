@@ -1,7 +1,7 @@
 extends ../layout
 
 block prepend title
-  | deleting deployment script for #{deploy.repo} —
+  | deleting deployment script for #{deploy.repo} #{deploy.branch} —
 
 block body
   h1 Deleting deployment script…
@@ -9,4 +9,4 @@ block body
 
   form(method="post", action="/" + deploy.repo + "/" + deploy.branch + "/delete")
     p There isn’t a way to recover deleted scripts.
-    button(type="submit") Delete #{deploy.repo} deployment script
+    button(type="submit") Delete #{deploy.repo} #{deploy.branch} deployment script

@@ -1,7 +1,7 @@
 extends ../layout
 
 block prepend title
-  | #{deploy.repo} deployment script —
+  | #{deploy.repo} #{deploy.branch} deployment script —
 
 block body
   h1 Deployment script
