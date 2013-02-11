@@ -7,6 +7,10 @@ block body
   h1 Edit deployment script
     p For #{deploy.repo} #{deploy.branch}
 
+  ul.error
+    each message in error
+      li= message
+
   form(id="deploy_form", method="post", action="/" + deploy.repo + "/" + deploy.branch + "/edit")
     p When all tests successfully finish for repository <em>#{deploy.repo}</em>, branch <em>#{deploy.branch}</em>, <label for="script">run this script:</label>
 
