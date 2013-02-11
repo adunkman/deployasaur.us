@@ -1,13 +1,27 @@
 var Deploy = require("../models/deploy");
 var deploy = module.exports = {};
 
+var isEmpty = function(object) {
+  var key;
+
+  for (key in object)
+    return false;
+
+  return true;
+}
+
 deploy.createForm = function (req, res, next) {
+  var error = req.flash('error');
+  var data = req.flash('data');
+
   req.services.github.getRepos(function (err, repos) {
     if (err) return next(err);
     if (!repos) return next();
 
     res.render("deploy/create", {
-      repos: repos
+      repos: repos,
+      data: data[0] || {},
+      error: error[0] || {}
     });
   });
 };
@@ -17,9 +31,25 @@ deploy.create = function (req, res, next) {
   var script = req.body.script;
   var repo = req.body.repo;
   var branchName = req.body.branch;
-  var repoParts = repo.split("/");
+  
+  var error = {};
 
-  // TODO: Validate this form.
+  if (!repo)
+    error['repo'] = "You must specify a repository";
+  if (!branchName)
+    error['branch'] = "You must specify a branch";
+  if (!script)
+    error['script'] = "Dinosaurs can not deploy without a script"
+
+  if (!isEmpty(error)) {
+    req.flash('error', error);
+    req.flash('data', req.body);
+    res.redirect("/create")
+    return;
+  }
+
+
+  var repoParts = repo.split("/");
 
   req.services.github.doesUserHavePushAccess(repoParts[0], repoParts[1], function (err, userHasPushAccess) {
     if (err) return next(err);
