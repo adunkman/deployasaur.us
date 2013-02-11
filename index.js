@@ -29,17 +29,17 @@ app.get("/login", c.auth.login);
 app.get("/login/callback", c.auth.callback);
 app.get("/logout", c.auth.logout);
 
-app.get("/create", c.deploy.createForm);
-app.post("/create", c.deploy.create);
+app.get("/create", c.auth.require, c.deploy.createForm);
+app.post("/create", c.auth.require, c.deploy.create);
 app.get("/create/examples", c.about.examples);
 
-app.get("/:user", c.user.view);
-app.get("/:user/:repo/:branch", c.deploy.view);
-app.get("/:user/:repo/:branch/edit", c.deploy.editForm);
-app.post("/:user/:repo/:branch/edit", c.deploy.edit);
-app.get("/:user/:repo/:branch/delete", c.deploy.deleteForm);
-app.post("/:user/:repo/:branch/delete", c.deploy.delete);
-app.get("/:user/:repo/:branch/:build/script", c.travis.script);
+app.get("/:user", c.auth.require, c.user.view);
+app.get("/:user/:repo/:branch", c.auth.require, c.deploy.view);
+app.get("/:user/:repo/:branch/edit", c.auth.require, c.deploy.editForm);
+app.post("/:user/:repo/:branch/edit", c.auth.require, c.deploy.edit);
+app.get("/:user/:repo/:branch/delete", c.auth.require, c.deploy.deleteForm);
+app.post("/:user/:repo/:branch/delete", c.auth.require, c.deploy.delete);
+app.get("/:user/:repo/:branch/:build/script", c.auth.require, c.travis.script);
 
 app.use(app.router);
 app.use(c.error.handleErrors);
