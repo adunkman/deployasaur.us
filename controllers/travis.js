@@ -8,12 +8,7 @@ travis.script = function (req, res, next) {
   var buildId = req.query.id;
   var job = req.query.job;
 
-  var query = { repo: fullRepoName };
-
-  if (branchName == 'master')
-    query["$where"] = "this.branch == null || this.branch == 'master'";
-  else
-    query.branch = branchName;
+  var query = { repo: fullRepoName, branch: branchName };
 
   Deploy.findOne(query, function (err, deploy) {
     if (err) return next(err);

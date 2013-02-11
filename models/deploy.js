@@ -7,7 +7,7 @@ var Deploy = module.exports = function (data) {
 
 Deploy.prototype.populate = function (data) {
   this.repo = data.repo;
-  this.branch = data.branch || 'master';
+  this.branch = data.branch;
   this.script = data.script;
   this.builds = data.builds || {};
 };
@@ -22,12 +22,7 @@ Deploy.prototype.data = function () {
 };
 
 Deploy.prototype.save = function (callback) {
-  var q = { repo: this.repo };
-
-  if (this.branch == 'master')
-    q["$where"] = "this.branch == null || this.branch == 'master'";
-  else
-    q.branch = this.branch;
+  var q = { repo: this.repo, branch: this.branch };
 
   mongo.findAndModify(deploysCollection, q, this.data(), function (err, data) {
     if (err) return callback(err);

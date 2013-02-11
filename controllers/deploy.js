@@ -54,12 +54,7 @@ deploy.view = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    var query = { repo: fullRepoName };
-
-    if (branchName == 'master')
-      query["$where"] = "this.branch == null || this.branch == 'master'";
-    else
-      query.branch = branchName;
+    var query = { repo: fullRepoName, branch: branchName };
 
     Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
@@ -82,12 +77,7 @@ deploy.editForm = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    var query = { repo: fullRepoName };
-
-    if (branchName == 'master')
-      query["$where"] = "this.branch == null || this.branch == 'master'";
-    else
-      query.branch = branchName;
+    var query = { repo: fullRepoName, branch: branchName };
 
     Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
@@ -112,12 +102,7 @@ deploy.edit = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    var query = { repo: fullRepoName };
-
-    if (branchName == 'master')
-      query["$where"] = "this.branch == null || this.branch == 'master'";
-    else
-      query.branch = branchName;
+    var query = { repo: fullRepoName, branch: branchName };
 
     Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
@@ -136,6 +121,7 @@ deploy.edit = function (req, res, next) {
 deploy.deleteForm = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -143,12 +129,7 @@ deploy.deleteForm = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    var query = { repo: fullRepoName };
-
-    if (branchName == 'master')
-      query["$where"] = "this.branch == null || this.branch == 'master'";
-    else
-      query.branch = branchName;
+    var query = { repo: fullRepoName, branch: branchName };
 
     Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
@@ -163,6 +144,7 @@ deploy.deleteForm = function (req, res, next) {
 deploy.delete = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -170,14 +152,9 @@ deploy.delete = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    var query = { repo: fullRepoName };
+    var query = { repo: fullRepoName, branch: branchName };
 
-    if (branchName == 'master')
-      query["$where"] = "this.branch == null || this.branch == 'master'";
-    else
-      query.branch = branchName;
-
-    Deploy.delete(fullRepoName, function (err) {
+    Deploy.delete(query, function (err) {
       return err
         ? next(err)
         : res.redirect("/" + req.session.user.username);
