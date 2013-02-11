@@ -11,6 +11,7 @@ function print() {
 
 [[ $(git remote -v) =~ git://github.com/([^ ]+).git ]]
 repository=${BASH_REMATCH[1]}
+branch=$TRAVIS_BRANCH
 build=$TRAVIS_BUILD_NUMBER
 job=$TRAVIS_JOB_NUMBER
 id=$TRAVIS_BUILD_ID
@@ -24,7 +25,7 @@ fi
 print "howdy $repository build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
-url="http://www.deployasaur.us/$repository/$build/script?job=${job}&id=${id}"
+url="http://www.deployasaur.us/$repository/$branch/$build/script?job=${job}&id=${id}"
 status=$(curl -s $url -o response -w %{http_code})
 
 case $status in
@@ -50,8 +51,8 @@ case $status in
     print "${yellow}exiting without deploying.${reset}"
     ;;
   404)
-    print "${red}i don't know about this repository.${reset}"
-    print "${red}are you sure you've created a deployment script for $repository?${reset}"
+    print "${red}i don't know about this repository and branch.${reset}"
+    print "${red}are you sure you've created a deployment script for $repository/$branch?${reset}"
     print "${yellow}exiting without deploying.${reset}"
     ;;
   *)

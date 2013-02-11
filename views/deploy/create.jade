@@ -14,7 +14,10 @@ block body
     each repo in repos
       option= repo.name
 
-    | </select>, <label for="script">run this script:</label>
+    | </select>, 
+    | <label for="branch">branch</label>
+    | <input type="text" id="branch" name="branch"></input>,
+    | <label for="script">run this script:</label>
 
     textarea(name="script", id="script")
 

@@ -18,6 +18,7 @@ deploy.create = function (req, res, next) {
   var user = req.session.user;
   var script = req.body.script;
   var repo = req.body.repo;
+  var branchName = req.body.branch;
   var repoParts = repo.split("/");
 
   if (!user) return next(401);
@@ -30,13 +31,14 @@ deploy.create = function (req, res, next) {
 
     var d = new Deploy({
       script: script,
+      branch: branchName,
       repo: repo
     });
 
     d.save(function (err) {
       return err
         ? next(err)
-        : res.redirect("/" + repo);
+        : res.redirect("/" + repo + "/" + branchName);
     });
   });
 };
@@ -44,6 +46,7 @@ deploy.create = function (req, res, next) {
 deploy.view = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -51,7 +54,9 @@ deploy.view = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    var query = { repo: fullRepoName, branch: branchName };
+
+    Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
 
       res.render("deploy/view", {
@@ -64,6 +69,7 @@ deploy.view = function (req, res, next) {
 deploy.editForm = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -71,7 +77,9 @@ deploy.editForm = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    var query = { repo: fullRepoName, branch: branchName };
+
+    Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
 
       res.render("deploy/edit", {
@@ -84,6 +92,7 @@ deploy.editForm = function (req, res, next) {
 deploy.edit = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -93,7 +102,9 @@ deploy.edit = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    var query = { repo: fullRepoName, branch: branchName };
+
+    Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
 
       d.script = req.body.script;
@@ -101,7 +112,7 @@ deploy.edit = function (req, res, next) {
       d.save(function (err) {
         return err
           ? next(err)
-          : res.redirect("/" + d.repo);
+          : res.redirect("/" + d.repo + "/" + d.branch);
       });
     });
   });
@@ -110,6 +121,7 @@ deploy.edit = function (req, res, next) {
 deploy.deleteForm = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -117,7 +129,9 @@ deploy.deleteForm = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    Deploy.findOne({ repo: fullRepoName }, function (err, d) {
+    var query = { repo: fullRepoName, branch: branchName };
+
+    Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
 
       res.render("deploy/delete", {
@@ -130,6 +144,7 @@ deploy.deleteForm = function (req, res, next) {
 deploy.delete = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
+  var branchName = req.params.branch;
 
   if (!user) return next(401);
 
@@ -137,7 +152,9 @@ deploy.delete = function (req, res, next) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
 
-    Deploy.delete(fullRepoName, function (err) {
+    var query = { repo: fullRepoName, branch: branchName };
+
+    Deploy.delete(query, function (err) {
       return err
         ? next(err)
         : res.redirect("/" + req.session.user.username);

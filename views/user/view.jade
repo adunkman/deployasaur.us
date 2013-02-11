@@ -14,6 +14,6 @@ block body
 
   if deploys && deploys.length
     ul: each deploy, index in deploys
-      li: a(href="/" + deploy.repo)= deploy.repo
+      li: a(href="/" + deploy.repo + "/" + deploy.branch)= deploy.repo + " " + deploy.branch
   else
     p You haven't configured any repositories to deploy with deployasaurus. <a href="/create">Create a deployment script</a>.
