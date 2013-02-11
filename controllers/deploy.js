@@ -2,8 +2,6 @@ var Deploy = require("../models/deploy");
 var deploy = module.exports = {};
 
 deploy.createForm = function (req, res, next) {
-  if (!req.session.user) return next(401);
-
   req.services.github.getRepos(function (err, repos) {
     if (err) return next(err);
     if (!repos) return next();
@@ -20,8 +18,6 @@ deploy.create = function (req, res, next) {
   var repo = req.body.repo;
   var branchName = req.body.branch;
   var repoParts = repo.split("/");
-
-  if (!user) return next(401);
 
   // TODO: Validate this form.
 
@@ -48,8 +44,6 @@ deploy.view = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
 
-  if (!user) return next(401);
-
   req.services.github.doesUserHavePushAccess(req.params.user, req.params.repo, function (err, userHasPushAccess) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
@@ -71,8 +65,6 @@ deploy.editForm = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
 
-  if (!user) return next(401);
-
   req.services.github.doesUserHavePushAccess(req.params.user, req.params.repo, function (err, userHasPushAccess) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
@@ -93,8 +85,6 @@ deploy.edit = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
-
-  if (!user) return next(401);
 
   // TODO: Validate this form.
 
@@ -123,8 +113,6 @@ deploy.deleteForm = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
 
-  if (!user) return next(401);
-
   req.services.github.doesUserHavePushAccess(req.params.user, req.params.repo, function (err, userHasPushAccess) {
     if (err) return next(err);
     if (!userHasPushAccess) return next(401);
@@ -145,8 +133,6 @@ deploy.delete = function (req, res, next) {
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
-
-  if (!user) return next(401);
 
   req.services.github.doesUserHavePushAccess(req.params.user, req.params.repo, function (err, userHasPushAccess) {
     if (err) return next(err);

@@ -61,3 +61,14 @@ auth.middleware = function (req, res, next) {
   res.locals.authUser = req.session.user;
   return next();
 };
+
+auth.require = function (req, res, next) {
+  var user = req.session.user;
+
+  if (!user) {
+    next(401);
+    return;
+  } else {
+    return next();
+  }
+}
