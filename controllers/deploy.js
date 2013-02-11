@@ -48,7 +48,6 @@ deploy.create = function (req, res, next) {
     return;
   }
 
-
   var repoParts = repo.split("/");
 
   req.services.github.doesUserHavePushAccess(repoParts[0], repoParts[1], function (err, userHasPushAccess) {
@@ -91,6 +90,9 @@ deploy.view = function (req, res, next) {
 };
 
 deploy.editForm = function (req, res, next) {
+  var error = req.flash('error')[0] || {};
+  var data = req.flash('data')[0] || {};
+  
   var user = req.session.user;
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
@@ -104,8 +106,13 @@ deploy.editForm = function (req, res, next) {
     Deploy.findOne(query, function (err, d) {
       if (err || !d) return next(err);
 
+      if (!isEmpty(error)) {
+        d.script = data.script;
+      }
+
       res.render("deploy/edit", {
-        deploy: d
+        deploy: d,
+        error: error
       });
     });
   });
@@ -116,7 +123,17 @@ deploy.edit = function (req, res, next) {
   var fullRepoName = req.params.user + "/" + req.params.repo;
   var branchName = req.params.branch;
 
-  // TODO: Validate this form.
+  var error = {};
+
+  if (!req.body.script)
+    error['script'] = "Dinosaurs can not deploy without a script"
+
+  if (!isEmpty(error)) {
+    req.flash('error', error);
+    req.flash('data', req.body);
+    res.redirect("/" + fullRepoName + "/" + branchName + "/edit");
+    return;
+  }
 
   req.services.github.doesUserHavePushAccess(req.params.user, req.params.repo, function (err, userHasPushAccess) {
     if (err) return next(err);

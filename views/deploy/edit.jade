@@ -11,6 +11,6 @@ block body
     p When all tests successfully finish for repository <em>#{deploy.repo}</em>, branch <em>#{deploy.branch}</em>, <label for="script">run this script:</label>
 
     .textarea-container
-      textarea(name="script", id="script")= deploy.script
+      textarea(name="script", id="script", class=error.script && 'error')= deploy.script
 
     button(type="submit") Save script
