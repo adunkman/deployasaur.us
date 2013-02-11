@@ -64,11 +64,5 @@ auth.middleware = function (req, res, next) {
 
 auth.require = function (req, res, next) {
   var user = req.session.user;
-
-  if (!user) {
-    next(401);
-    return;
-  } else {
-    return next();
-  }
+  return user ? next() : next(401);
 }
