@@ -22,7 +22,7 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
   exit
 fi
 
-print "howdy $repository build $build! nice to hear from you."
+print "howdy $repository $branch build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
 url="http://www.deployasaur.us/$repository/$branch/$build/script?job=${job}&id=${id}"
