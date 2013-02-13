@@ -1,8 +1,8 @@
 var querystring = require("querystring"),
     request = require("request"),
     User = require("../models/user"),
-    clientId = process.env.GITHUB_CLIENT_ID,
-    clientSecret = process.env.GITHUB_CLIENT_SECRET,
+    clientId = process.env.GITHUB_CLIENT_ID || "fd4e3d65812a657ca014",
+    clientSecret = process.env.GITHUB_CLIENT_SECRET || "0fa21fd8086a357bf479c1d7d5099bcf133a87fc",
     auth = module.exports = {};
 
 auth.login = function (req, res, next) {
