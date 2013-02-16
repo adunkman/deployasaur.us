@@ -22,6 +22,12 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
   exit
 fi
 
+if [[ $TRAVIS_TEST_RESULT != "0" ]]; then
+  print "woah there! your tests didn't pass!"
+  print "${yellow}exiting without deploying.${reset}"
+  exit
+fi
+
 print "howdy $repository $branch build $build! nice to hear from you."
 print "checking in with the dinosaur overlords..."
 
