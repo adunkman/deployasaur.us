@@ -50,6 +50,23 @@ case $status in
       print "${red}your deployment script failed (exit code $code).${reset}"
       print "this is probably not an issue with deployasaur.us."
     fi
+
+    print "reporting deployment status..."
+    url="http://www.deployasaur.us/$repository/$branch/$build/status?job=${job}"
+    status=$(curl -X PUT -d "code=$code" -s $url -o reportStatus -w %{http_code})
+
+    if [ $status -eq 200 ]; then
+      print "all done!"
+    else
+      print "${red}couldn't report deployment status: something strange happened (status $status).${reset}"
+      print "${red}response for debugging purposes:${reset}"
+      echo ""
+      echo $(cat reportStatus)
+      echo ""
+      print "${red}please file an issue with this complete output${reset}"
+      print "${red}issues url: http://github.com/adunkman/deployasaur.us/issues${reset}"
+    fi
+
     ;;
   202)
     print "${yellow}other jobs must check-in before deployment occurs.${reset}"

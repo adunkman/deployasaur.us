@@ -40,6 +40,7 @@ app.post("/:user/:repo/:branch/edit", c.auth.require, c.deploy.edit);
 app.get("/:user/:repo/:branch/delete", c.auth.require, c.deploy.deleteForm);
 app.post("/:user/:repo/:branch/delete", c.auth.require, c.deploy.delete);
 app.get("/:user/:repo/:branch/:build/script", c.travis.script);
+app.put("/:user/:repo/:branch/:build/status", c.travis.status);
 
 app.use(app.router);
 app.use(c.error.handleErrors);
