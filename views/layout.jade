@@ -13,7 +13,7 @@ html
       .user
         if locals.authUser
           a.profile-link(href="/" + locals.authUser.username)
-            span Howdy #{locals.authUser.username}!
+            span Howdy, #{locals.authUser.username}!
             .img
               img(src=locals.authUser.avatarUrl)
               .decoration
