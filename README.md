@@ -1,3 +1,7 @@
+# No longer active.
+
+This has been hosted at http://www.deployasaur.us in the past; it is now offline. The original README follows.
+
 # deployasaur.us
 Automatic Deployments with Travis CI
 
